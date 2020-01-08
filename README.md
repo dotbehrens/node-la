@@ -11,6 +11,7 @@ From the command line, run: <br>
 `npm install`<br>
 to install this app's dependencies, then this app can be started by running an instance of a mysql database with:
 <br>`brew services start mariadb`<br>
+
 start the web pack builder to watch the build by using: 
 <br> `npm run start-client`<br> 
 Finally, to start the server run:

@@ -83,6 +83,8 @@ const Neighborhoods = ({ changeView, getHoodPosts, hoodPosts }) => {
                 <MenuItem value={'Treme'}>Treme</MenuItem>
                 <MenuItem value={'Uptown'}>Uptown</MenuItem>
                 <MenuItem value={'WestBank'}>West Bank</MenuItem>
+                <MenuItem value={'IrishChannel'}>Irish Channel</MenuItem>
+                <MenuItem value={'NorthShore'}>North Shore</MenuItem>
               </Select>
             </FormControl>
           {/* Select button */}
