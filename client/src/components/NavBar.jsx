@@ -24,14 +24,14 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const NavBar = ({ changeView, updateLogin, loggedIn, weatherIcon, weatherInfo, userSignUp, getUserPosts, userLogin }) => {
+const NavBar = ({ changeView, updateLogin, loggedIn, weatherIcon, weatherInfo, userSignUp, getUserPosts, userLogin, getNeighbors }) => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
       <AppBar className={classes.appBar} position="static">
         <Toolbar>
           {/* menu button */}
-          <MenuList changeView={changeView} weatherIcon={weatherIcon} weatherInfo={weatherInfo}/>
+          <MenuList changeView={changeView} weatherIcon={weatherIcon} weatherInfo={weatherInfo} getNeighbors={getNeighbors}/>
           {/* app title */}
           <img className={classes.img} src={Logo} alt="Logo" />
           {/* Login button (changes to sign out button when logged in) */}

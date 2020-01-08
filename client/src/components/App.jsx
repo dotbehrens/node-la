@@ -3,7 +3,9 @@ import axios from 'axios';
 import Post from './Views/Post.jsx';
 import Posts from './Views/Posts.jsx';
 import UserPosts from './Views/UserPosts.jsx';
+import UserHood from './Views/UserHood.jsx';
 import Neighborhoods from './Views/Neighborhoods.jsx';
+import Neighbor from './Views/Neighbor.jsx';
 import NavBar from './NavBar.jsx';
 import Typography from '@material-ui/core/Typography';
 
@@ -19,10 +21,13 @@ class App extends React.Component {
       userPosts: [],
       view: 'posts',
       loggedIn: false,
-      username: '',
+      username: 'you',
       userId: '',
-      neighborhood: '',
-      hoodPosts: []
+      neighborhood: 'Fountainbleu',
+      hoodPosts: [],
+      neighbors: [],
+      neighbor: '',
+      neighborPosts: [],
     };
 
     this.userLogin = this.userLogin.bind(this);
@@ -35,6 +40,8 @@ class App extends React.Component {
     this.getAllPosts = this.getAllPosts.bind(this);
     this.getComments = this.getComments.bind(this);
     this.getHoodPosts = this.getHoodPosts.bind(this)
+    this.getNeighbors = this.getNeighbors.bind(this)
+    this.getNeighbor = this.getNeighbor.bind(this)
     this.getUserPosts = this.getUserPosts.bind(this);
     this.createComment = this.createComment.bind(this);
     this.changeCurrentPost = this.changeCurrentPost.bind(this);
@@ -83,7 +90,7 @@ class App extends React.Component {
     })
     return axios.get(`/usersposts`, {
       params: {
-        'username': username
+        username,
       }
     })
       .then(response => {
@@ -98,20 +105,26 @@ class App extends React.Component {
   userLogin(username) {
     return axios.get(`/users/${username}`)
       .then(response => {
+        const { userId, username, hood } = response.data.data[0];
         this.setState({
-          userId: response.data.data[0].id,
+          userId,
+          username,
+          neighborhood: hood
         })
       })
       .catch(error => console.log(error))
   }
 
   // function to save new username to the db and set username state
-  userSignUp(username) {
+  userSignUp(username, hood) {
+    console.log(hood);
     this.setState({
       username: username,
+      neighborhood: hood
     })
     return axios.post('/signup', {
       'username': username,
+      hood,
     })
       .then(response => response)
       .catch(error => console.log(error))
@@ -159,6 +172,60 @@ class App extends React.Component {
       .catch(error => console.log(error))
   }
 
+  // get all users in a given neighborhood (except current user?)
+  // called in MenuList when user clicks on My Neighborhood dropdown item
+  getNeighbors() {
+    const { neighborhood } = this.state;
+    axios.get(`/neighbors/${neighborhood}`)
+      .then((response) => {
+        // filter response data to not include current logged in user
+        const filteredResponse = response.data.filter((neighbor) => {
+          return neighbor.username !== this.state.username;
+        })
+        // set the filtered neighbors onto state
+        this.setState({
+          neighbors: filteredResponse,
+        })
+      })
+      // then call changeView to change the view
+      .then(() => {
+        this.changeView("userHood");
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+  }
+
+  // get info for a specific neighbor to render in Neighbor component
+  // called when user clicks on a neighbor name in the Neighborhood view
+  getNeighbor(neighbor) {
+    return axios.get(`/users/${neighbor}`)
+      .then((response) => {
+        const neighbor = response.data.data[0].username;
+        this.setState({
+          neighbor,
+        })
+        console.log(neighbor);
+        axios.get(`/usersposts`, {
+          params: {
+            username: neighbor
+          }
+        })
+          .then((response) => {
+            const neighborPosts = response.data.data;
+            this.setState({
+              neighborPosts
+            })
+          })
+          .then(() => {
+            this.changeView('neighbor')
+          })
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+  }
+
   // function to get all posts of a certain neighborhood
   getHoodPosts(hoodName){
     return axios.get('/neighborhoods/posts', {
@@ -196,7 +263,7 @@ class App extends React.Component {
   }
   
   render() {
-    const { view } = this.state;
+    const { view, neighbors, neighbor, neighborPosts } = this.state;
     const { loggedIn } = this.state;
     return (
       <div>
@@ -210,6 +277,7 @@ class App extends React.Component {
           userSignUp={this.userSignUp}
           userLogin={this.userLogin}
           getUserPosts={this.getUserPosts}
+          getNeighbors={this.getNeighbors}
         />
         {/* Post view changes base on state */}
         {(() => {
@@ -231,6 +299,18 @@ class App extends React.Component {
               : <Typography variant="h4" style={{ fontWeight: "bolder", textAlign: "center", color: "white" }}>
                   Please Login to see your posts!
                 </Typography>)
+            // userHood shows all users from a given neighborhood
+            case 'userHood':
+              return (
+                neighbors.length > 0 ? <UserHood neighbors={neighbors} getNeighbor={this.getNeighbor} changeView={this.changeView} userPosts={this.state.userPosts} />
+                  : <Typography variant="h4" style={{ fontWeight: "bold", textAlign: "center", color: "white" }}>
+                    You're the only one in the neighborhood...
+                </Typography>)
+            // neighbor shows a particular neighbor
+            case 'neighbor':
+              return (
+                <Neighbor neighbor={neighbor} neighborPosts={neighborPosts} changeView={this.changeView} changeCurrentPost={this.changeCurrentPost}/>
+              )
             // neighborhoods shows posts based on what neighborhood is selected
             case 'neighborhoods':
               return <Neighborhoods 

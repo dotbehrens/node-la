@@ -8,3 +8,5 @@ server/db/config.js
 client/dist/bundle.js
 *.log
 bower_components
+app.yaml
+.env

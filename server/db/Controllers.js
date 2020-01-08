@@ -8,12 +8,12 @@ const app = express(feathers());
 //create & save a user to the db
 // !CREATE USER
 const createUser = function (req, res, next) {
-  const username = req.body.username; // Grab username from req body
-  const id = req.body.id; // Grab password from req body
+  const { username, hood, id } = req.body; // Grab username, id, and hood from req body
   // debugger;
   User.create({
-    username: username,
-    id: id
+    username,
+    hood,
+    id,
   })
     .then((data) => {
       res.status(201).json({ // Send 201 status upon success.
@@ -64,11 +64,24 @@ const getUsers = function (req, res, next) {
       }));
       return next();
     })
-    .catch(err => {
+    .catch(() => {
       res.status(400);
       return next();
     });
 };
+
+// get all users from a given neighborhood
+const getNeighbors = (req, res, next) => {
+  const { hood } = req.params
+  User.findAll({ where: { hood: hood } })
+    .then((users) => {
+      console.log(users);
+      res.send(users);
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+}
 
 //Update User
 //! UPDATE
@@ -367,6 +380,7 @@ module.exports = {
   createUser,
   getSingleUser,
   getUsers,
+  getNeighbors,
   updateUser,
   deleteUser,
   createPost,
