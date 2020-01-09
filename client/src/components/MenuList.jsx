@@ -92,6 +92,12 @@ const MenuList = ({ changeView, weatherIcon, weatherInfo, getNeighbors }) => {
           </ListItemIcon>
           <ListItemText primary="Neighborhoods" />
         </StyledMenuItem>
+        <StyledMenuItem onClick={() => { changeView("plantId"); }}>
+          <ListItemIcon>
+            <HomeWorkIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText primary="Plant Id" />
+        </StyledMenuItem>
         {/* Drop down weather widget */}
         <Weather weatherIcon={weatherIcon} weatherInfo={weatherInfo}/>
       </StyledMenu>

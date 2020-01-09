@@ -1,7 +1,7 @@
 module.exports = {
   user: 'root',
   host: 'localhost',
-  password: '',
+  password: '325425',
   database: 'nodela',
   dialect: 'mariadb',
   dialectOptions: {

@@ -8,6 +8,7 @@ import Neighborhoods from './Views/Neighborhoods.jsx';
 import Neighbor from './Views/Neighbor.jsx';
 import NavBar from './NavBar.jsx';
 import Typography from '@material-ui/core/Typography';
+import PlantId from './Views/PlantId.jsx'
 
 class App extends React.Component {
   constructor(props) {
@@ -28,6 +29,7 @@ class App extends React.Component {
       neighbors: [],
       neighbor: '',
       neighborPosts: [],
+      selectedFile: null
     };
 
     this.userLogin = this.userLogin.bind(this);
@@ -44,7 +46,9 @@ class App extends React.Component {
     this.getNeighbor = this.getNeighbor.bind(this)
     this.getUserPosts = this.getUserPosts.bind(this);
     this.createComment = this.createComment.bind(this);
+    this.uploadFile= this.uploadFile.bind(this);
     this.changeCurrentPost = this.changeCurrentPost.bind(this);
+    this.handleUrl = this.handleUrl.bind(this);
   }
 
   componentDidMount() {
@@ -261,6 +265,22 @@ class App extends React.Component {
       loggedIn: !this.state.loggedIn,
     });
   }
+
+  uploadFile(){
+    axios.post('/plantid', {
+      image: this.state.selectedFile,
+      imageName: this.state.selectedFile.name
+    })
+    .then((res) => {
+      console.log('res', res)
+    })
+
+  }
+  handleUrl(event){
+    this.setState({selectedFile: event.target.files[0]})
+    console.log('file', event.target.files[0])
+
+  }
   
   render() {
     const { view, neighbors, neighbor, neighborPosts } = this.state;
@@ -328,6 +348,13 @@ class App extends React.Component {
               createComment={this.createComment}
               comments={this.state.comments}
               loggedIn={this.state.loggedIn}
+              />;
+            case 'plantId':
+              return <PlantId
+              changeView={this.changeView}
+              handleUrl={this.handleUrl}
+              uploadFile={this.uploadFile}
+          
               />;
           }
         })()}

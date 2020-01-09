@@ -375,6 +375,8 @@ const getNeighborhoodsPosts = function(req, res, next) {
 }
 
 
+
+
 module.exports = {
   getNeighborhoodsPosts,
   createUser,
