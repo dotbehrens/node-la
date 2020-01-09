@@ -39,3 +39,4 @@ TODO: finish resource list
 
 &copy; 2020 OperationSpark.  This material is copyrighted by OperationSparks and may not be distributed to the public
 
+https://www.youtube.com/watch?v=XeiOnkEI7XI&t=7s
