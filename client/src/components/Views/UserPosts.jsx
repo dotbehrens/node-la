@@ -2,6 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Paper, Grid } from '@material-ui/core';
+import {FavoriteBorderIcon} from '@material-ui/core'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -14,7 +15,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const UserPosts = ({ changeView, userPosts, changeCurrentPost }) => {
+const UserPosts = ({ changeView, userPosts, toggleFavorite, changeCurrentPost }) => {
   //use given style from above
   const classes = useStyles();
   return (
@@ -32,6 +33,11 @@ const UserPosts = ({ changeView, userPosts, changeCurrentPost }) => {
                     onClick={() => { changeView("post"), changeCurrentPost(userPosts[index]) }}>
                     {post.title}
                   </Typography>
+                  <FavoriteBorderIcon
+                    size="medium"
+                    onClick={() => {
+                      toggleFavorite(post.id, neighbor);
+                    }} />
                   <Typography variant="body2">{post.body}</Typography>
                   <Typography variant="body2" style={{ color: '#00796b', fontWeight: "bolder" }}>{post.username}</Typography>
                 </Grid>

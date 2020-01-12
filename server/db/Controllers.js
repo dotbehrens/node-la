@@ -340,7 +340,7 @@ const getFavePosts = function (req, res, next) {
 const updatePost = function (req, res, next) {
   console.log(req.body);
   Post.update({
-    favedStatus: false,
+    favedStatus: true,
     }, {
     where: {
       id: req.body.postId

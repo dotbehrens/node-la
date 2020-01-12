@@ -350,10 +350,8 @@ class App extends React.Component {
     axios
       .patch("users/hood", { username, newHood })
       .then(response => {
-        console.log(response);
       })
       .catch(error => {
-        console.log(error);
       });
   }
 
@@ -366,7 +364,7 @@ class App extends React.Component {
       alert("This post has been faved!!");
     })
     .catch(err => {
-      console.log('err with toggle favorite', err)
+      console.log('err with toggle favorite')
     })
 
     
@@ -473,6 +471,7 @@ class App extends React.Component {
             case "userPosts":
               return loggedIn ? (
                 <UserPosts
+                  toggleFavorite={this.toggleFavorite}
                   changeCurrentPost={this.changeCurrentPost}
                   changeView={this.changeView}
                   userPosts={this.state.userPosts}
