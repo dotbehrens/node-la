@@ -1,6 +1,6 @@
 'use strict';
 
-const { localMariaConfig, sqlConfig } = require('./config');
+const { sqlConfig } = require('./config');
 const Sequelize = require('sequelize');
 const UserModel = require('./Models/User');
 const HoodModel = require('./Models/Hood');
@@ -13,10 +13,10 @@ dotenv.config();
 const { DB_PASS } = process.env;
 
 //connect to local mariadb using Sequelize methods
-// const sequelize = new Sequelize('nodela', 'root', '', localMariaConfig);
+ const sequelize = new Sequelize('nodela', 'root', '', sqlConfig);
 
 // connect to cloud sql db
-const sequelize = new Sequelize('nodela', 'root', DB_PASS, sqlConfig);
+//const sequelize = new Sequelize('nodela', 'root', DB_PASS, sqlConfig);
 
 
 /*
@@ -43,6 +43,11 @@ Set constraints to false to avoid errors
 //Set Table Associations before initialization, be mindful of order
 User.hasMany(Post, {
   foreignKey: 'userPostId',
+  constraints: false
+});
+
+User.hasMany(Post, {
+  foreignKey: 'favePostId',
   constraints: false
 });
 

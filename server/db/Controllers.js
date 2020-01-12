@@ -9,7 +9,6 @@ const app = express(feathers());
 // !CREATE USER
 const createUser = function (req, res, next) {
   const { username, hood, id } = req.body; // Grab username, id, and hood from req body
-  // debugger;
   User.create({
     username,
     hood,
@@ -107,6 +106,23 @@ const getNeighbors = (req, res, next) => {
     })
 }
 
+// get all faves from a user
+const getFaves = (req, res, next) => {
+// find our user
+  const id = req.params.userId;
+  console.log(id);
+  User.findOrCreate({
+    where: {
+      id: id
+    }
+  }).
+  then((user) => {
+
+  })
+}
+
+
+
 //Update User
 //! UPDATE
 const updateUser = function (req, res, next) {
@@ -175,7 +191,7 @@ const deleteUser = function (req, res, next) {
 const createPost = function (req, res) {
   //todo
   //comment that in
-  const {username, hoodName, postBody, postType, title, /*upOrDown*/} = req.body;
+  const { username, hoodName, postBody, postType, title } = req.body;
   let postTypeId = null;
   let postHoodId = null;
   let postUserId = null;
@@ -186,7 +202,7 @@ const createPost = function (req, res) {
     hoodName: hoodName,
     upOrDown: upOrDown,
   }})
-  .catch((err)=>{ err })
+  // .catch((err)=>{ err })
   .then((tuple) => {
     const createdHoodObj = tuple[0];
     console.log(createdHoodObj);
@@ -198,7 +214,7 @@ const createPost = function (req, res) {
         username: username,
     }})
   })
-  .catch((err)=>{err; debugger;})
+  // .catch((err)=>{err; debugger;})
     //should check for use userid
   .then((tuple) => {
     const createdUserObj = tuple[0];
@@ -223,18 +239,18 @@ const createPost = function (req, res) {
       userId: postUserId,
     });
   })
-  .then((data) => {
-    data;
-    res.status(201)
-      .json({
-        status: 'success',
-        data: data,
-        message: 'Created a new Post!'
-      });
-  })
+  // .then((data) => {
+  //   data;
+  //   res.status(201)
+  //     .json({
+  //       status: 'success',
+  //       data: data,
+  //       message: 'Created a new Post!'
+  //     });
+  // })
   .catch((err) => {
     res.status(400);
-    console.log('There was an error creating that post!'), err;
+    console.log('There was an error creating that post!', err);
     return next();
   });
 };
@@ -298,19 +314,49 @@ const getPosts = function (req, res, next) {
     });
 };
 
+const getFavePosts = function (req, res, next) {
+  const {
+    userId
+  } = req.query;
+  Post.findAll({
+    where: {
+      userId: id
+    }
+  })
+    .then((response) => {
+      res.status(200);
+      res.send(JSON.stringify({
+        status: 'success',
+        data: response,
+        message: 'Here are all the posts!'
+      }));
+      return next();
+    })
+    .catch(err => {
+      res.sendStatus(400);
+      console.log(err);
+      return next();
+    });
+};
+
 //!UPDATE POST
 const updatePost = function (req, res, next) {
+  console.log(req.body);
   Post.update({
-    // title: newTitle,
-    // postBody: newPostBody,
-    // }, {
-    // where: {
-    //   id: postId
-    // }
+    favedStatus: true,
+    }, {
+    where: {
+      id: req.body.postId
+    }
   })
     .then((newPost) => {
-      res.status(201);
-      console.log(`This post has been updated to ${newPost}`);
+      res.status(201).send();
+      // console.log(`This post has been updated to ${newPost}`);
+    })
+    .catch(err => {
+      res.sendStatus(400);
+      console.log(err);
+      return next();
     });
 };
 
@@ -416,7 +462,7 @@ const getNeighborhoodsPosts = function(req, res, next) {
     where: {
       hoodName: hoodName,
   }})
-  .catch((err) => { debugger; })
+  // .catch((err) => { debugger; })
   .then((hood) => {
       // debugger;
       postHoodId = hood.dataValues.id;
@@ -436,6 +482,8 @@ const getNeighborhoodsPosts = function(req, res, next) {
 
 
 module.exports = {
+  getFaves,
+  getFavePosts,
   getNeighborhoodsPosts,
   createUser,
   getSingleUser,
