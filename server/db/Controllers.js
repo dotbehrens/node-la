@@ -173,13 +173,11 @@ const deleteUser = function (req, res, next) {
 
 //! CREATE POST
 const createPost = function (req, res) {
-  //todo
-  //comment that in
+ 
   const {username, hoodName, postBody, postType, title, /*upOrDown*/} = req.body;
   let postTypeId = null;
   let postHoodId = null;
   let postUserId = null;
-  //comment this line out
   let upOrDown = 'up';
   Hood.findOrCreate({
     where:{

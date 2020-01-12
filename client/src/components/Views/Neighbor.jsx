@@ -40,9 +40,11 @@ const Neighbor = ({ neighbor, neighborPosts, getNeighbors }) => {
                   <Typography style={{float: 'left'}} gutterBottom id={index} variant="h5">
                     {post.title}
                   </Typography>
-                  {post.favorite === true} 
+                  <div> 
+                  {post.favedStatus === true} 
                   ?  <FavoriteIcon size='medium' />
                   :  <FavoriteBorderIcon size='medium'/>
+            </div>
                   <Typography variant="body2">{post.body}</Typography>
 
                 </Grid>
