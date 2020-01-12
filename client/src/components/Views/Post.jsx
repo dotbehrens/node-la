@@ -54,6 +54,11 @@ const Post = ({ changeView, currentPost, createComment }) => {
             <Typography variant="h6" color="primary" style={{ fontWeight: "bolder", textAlign: "right" }}>{currentPost.username}</Typography>
             <Typography variant="subtitle2" color="textSecondary" style={{ textAlign: "right" }}>{moment(currentPost.createdAt).fromNow()}</Typography>
             <Typography variant="h6">{currentPost.postBody}</Typography>
+            <FavoriteBorderIcon
+                    size="medium"
+                    onClick={() => {
+                      toggleFavorite(post.id, neighbor);
+                    }}/>
           </Paper>
         </Grid>
         {/* Button with dialog box for adding comments*/}
