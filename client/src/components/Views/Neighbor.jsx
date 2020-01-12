@@ -64,7 +64,6 @@ const Neighbor = ({ neighbor, neighborPosts, getNeighbors, toggleFavorite }) => 
                       id={post.id}
                       onClick={() => {
                         toggleFavorite(post.body, neighbor);
-                        debugger;
                       }}
                     />}
                   </div> */}

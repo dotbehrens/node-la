@@ -38,7 +38,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Post = ({ changeView, currentPost, createComment }) => {
+const Post = ({ changeView, currentPost, createComment, toggleFavorite }) => {
   const classes = useStyles();
   return (
     <div className={classes.root}>

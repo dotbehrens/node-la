@@ -267,7 +267,6 @@ class App extends React.Component {
     return axios
       .get(`/users/${neighbor}`)
       .then(response => {
-        debugger
         const neighbor = response.data.data[0].username;
         this.setState({
           neighbor
@@ -280,7 +279,6 @@ class App extends React.Component {
             }
           })
           .then(response => {
-            debugger;
             const neighborPosts = response.data.data;
             console.log(neighborPosts);
             this.setState({
@@ -437,7 +435,7 @@ class App extends React.Component {
             case "posts":
               return loggedIn ? (
                 <Posts
-                  toggleFavorite={toggleFavorite}
+                  toggleFavorite={this.toggleFavorite}
                   changeView={this.changeView}
                   loggedIn={this.state.loggedIn}
                   createPost={this.createPost}
@@ -585,6 +583,7 @@ class App extends React.Component {
             // post view shows the post clicked on with it's comments
             case 'post':
               return <Post
+              toggleFavorite={this.toggleFavorite}
               changeView={this.changeView}
               currentPost={this.state.currentPost}
               createComment={this.createComment}
