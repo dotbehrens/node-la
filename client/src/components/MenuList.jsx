@@ -41,7 +41,7 @@ const StyledMenuItem = withStyles(theme => ({
   },
 }))(MenuItem);
 
-const MenuList = ({ changeView, weatherIcon, weatherInfo, getNeighbors }) => {
+const MenuList = ({ changeView, weatherIcon, weatherInfo, getNeighbors, getFavs }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   //target clicked element on menu
   const handleClick = event => {
@@ -51,6 +51,10 @@ const MenuList = ({ changeView, weatherIcon, weatherInfo, getNeighbors }) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const handleFavView = () => {
+    changeView("favorites");
+    getFavs();
+  }
   return (
     <div>
       <IconButton
@@ -105,7 +109,7 @@ const MenuList = ({ changeView, weatherIcon, weatherInfo, getNeighbors }) => {
           <ListItemText primary="Neighborhoods" />
         </StyledMenuItem>
         
-        <StyledMenuItem onClick={() => { changeView("favorite"); getFavorites()} }>
+        <StyledMenuItem onClick={() => { handleFavView();} }>
           <ListItemIcon>
             <FavoriteIcon fontSize="small" />
           </ListItemIcon>
