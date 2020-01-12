@@ -318,9 +318,11 @@ const getFavePosts = function (req, res, next) {
   const {
     userId
   } = req.query;
+  //Check this req object to see where the current User ID requesting the faves
+  //is currently
   Post.findAll({
     where: {
-      userId: id
+      favedStatus: true,
     }
   })
     .then((response) => {
@@ -343,7 +345,7 @@ const getFavePosts = function (req, res, next) {
 const updatePost = function (req, res, next) {
   console.log(req.body);
   Post.update({
-    favedStatus: true,
+    favedStatus: false,
     }, {
     where: {
       id: req.body.postId
