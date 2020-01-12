@@ -6,6 +6,7 @@ import UserPosts from './Views/UserPosts.jsx';
 import UserProfile from './Views/UserProfile.jsx';
 import Neighborhood from './Views/Neighborhood.jsx';
 import Neighborhoods from './Views/Neighborhoods.jsx';
+import Favorites from './Views/Favorites.jsx'
 import Neighbor from './Views/Neighbor.jsx';
 import NavBar from './NavBar.jsx';
 import Typography from '@material-ui/core/Typography';
@@ -52,7 +53,7 @@ class App extends React.Component {
     this.getUserPosts = this.getUserPosts.bind(this);
     this.createComment = this.createComment.bind(this);
     this.changeCurrentPost = this.changeCurrentPost.bind(this);
-    this.getFavorites = this.getFavorites.bind(this);
+    this.getFavs = this.getFavs.bind(this);
     this.toggleFavorite = this.toggleFavorite.bind(this);
   }
 
@@ -373,12 +374,15 @@ class App extends React.Component {
     
   }
 
-  getFavorites(){
-    axios.get('/favorites')
+  getFavs(){
+    axios.get('/favs')
     .then(response => {
-      console.log(response)
+      console.log(response.data.data)
+      this.setState({ favorites: response.data.data });
     })
-    .then(this.setState({favorites: response}))
+    .then(()=> {
+      console.log(this.state.favorites)
+    })
     .catch(err => {
       console.log('err with get favorites' , err)
     })
@@ -392,7 +396,8 @@ class App extends React.Component {
       neighbor,
       neighborhood,
       neighborPosts,
-      username
+      username,
+      favorites,
     } = this.state;
     const { loggedIn } = this.state;
     return (
@@ -408,7 +413,7 @@ class App extends React.Component {
           userLogin={this.userLogin}
           getUserPosts={this.getUserPosts}
           getNeighbors={this.getNeighbors}
-          getFavorites={this.getFavorites}
+          getFavs={this.getFavs}
         />
         {/* Post view changes base on state */}
         {(() => {
@@ -585,26 +590,19 @@ class App extends React.Component {
               comments={this.state.comments}
               loggedIn={this.state.loggedIn}
               />;
-              case 'favorites':
-                return (loggedIn ? <Posts 
-                  favorites={this.state.favorites}
+                case "favorites":
+              return (
+                <Favorites
+                  favedPosts={favorites}
                   changeView={this.changeView}
-                  loggedIn={this.state.loggedIn} 
+                  loggedIn={this.state.loggedIn}
                   createPost={this.createPost}
                   posts={this.state.posts}
                   changeCurrentPost={this.changeCurrentPost}
                   getComments={this.getComments}
                   username={username}
-                  />
-                  : <div>
-                      <Typography variant="h5" style={{ fontWeight: "bolder", textAlign: "center", color: "white", marginTop: 20 }}>
-                        Welcome to NodeLA!
-                      </Typography>
-                      <Typography variant="h6" style={{ fontWeight: "bolder", textAlign: "center", color: "white"}}>
-                      Please log in.
-                      </Typography>
-                    </div>
-                )
+                />
+              ) 
           }
         })()}
       </div>
