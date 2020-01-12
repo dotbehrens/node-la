@@ -20,11 +20,8 @@ const sqlConfig = {
   password: '',
   dialect: 'mysql',
   database: 'nodela',
-<<<<<<< HEAD
-=======
   // host: `/cloudsql/${CLOUD_SQL_INSTANCE_CONNECTION_NAME}`,
   // timestamps: false,
->>>>>>> 4ef597972d438324a72bb2f450721c8e70a7d89d
   // dialectOptions: {
   //   socketPath: `/cloudsql/${CLOUD_SQL_INSTANCE_CONNECTION_NAME}`
   // },

@@ -189,14 +189,9 @@ const deleteUser = function (req, res, next) {
 
 //! CREATE POST
 const createPost = function (req, res) {
-<<<<<<< HEAD
- 
-  const {username, hoodName, postBody, postType, title, /*upOrDown*/} = req.body;
-=======
   //todo
   //comment that in
   const { username, hoodName, postBody, postType, title } = req.body;
->>>>>>> 4ef597972d438324a72bb2f450721c8e70a7d89d
   let postTypeId = null;
   let postHoodId = null;
   let postUserId = null;

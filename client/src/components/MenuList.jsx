@@ -51,6 +51,10 @@ const MenuList = ({ changeView, weatherIcon, weatherInfo, getNeighbors }) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const favoriteView= () => {
+    changeView("favorite"); 
+    getFavorites();
+  }
   return (
     <div>
       <IconButton
@@ -105,7 +109,7 @@ const MenuList = ({ changeView, weatherIcon, weatherInfo, getNeighbors }) => {
           <ListItemText primary="Neighborhoods" />
         </StyledMenuItem>
         
-        <StyledMenuItem onClick={() => { changeView("favorite"); getFavorites()} }>
+        <StyledMenuItem onClick={() => { favoriteView()} }>
           <ListItemIcon>
             <FavoriteIcon fontSize="small" />
           </ListItemIcon>
