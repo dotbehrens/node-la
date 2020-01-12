@@ -19,6 +19,10 @@ module.exports = (sequelize, type) => {
     postVotes: {
       type: type.INTEGER,
       allowNull: false
+    },
+    favedStatus: {
+      type: type.BOOLEAN,
+      allowNull: true
     }
   });
 };

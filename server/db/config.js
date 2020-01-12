@@ -1,7 +1,7 @@
 const dotenv = require('dotenv');
 dotenv.config();
 
-const { DB_HOST, DB_PASS, DB_PORT, CLOUD_SQL_INSTANCE_CONNECTION_NAME} = process.env;
+// const { DB_HOST, DB_PASS, CLOUD_SQL_INSTANCE_CONNECTION_NAME} = process.env;
 
 // const localMariaConfig = {
 //   user: 'root',
@@ -16,16 +16,21 @@ const { DB_HOST, DB_PASS, DB_PORT, CLOUD_SQL_INSTANCE_CONNECTION_NAME} = process
 
 const sqlConfig = {
   user: 'root',
-  host: DB_HOST,
-  password: DB_PASS,
+  host: 'localhost',
+  password: '',
   dialect: 'mysql',
   database: 'nodela',
+<<<<<<< HEAD
+=======
+  // host: `/cloudsql/${CLOUD_SQL_INSTANCE_CONNECTION_NAME}`,
+  // timestamps: false,
+>>>>>>> 4ef597972d438324a72bb2f450721c8e70a7d89d
   // dialectOptions: {
   //   socketPath: `/cloudsql/${CLOUD_SQL_INSTANCE_CONNECTION_NAME}`
   // },
 };
 
 module.exports = {
-  localMariaConfig: localMariaConfig,
+  // localMariaConfig: localMariaConfig,
   sqlConfig: sqlConfig,
 }

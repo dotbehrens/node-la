@@ -19,7 +19,7 @@ module.exports = function (app, express) {
   app.patch('/users/hood', ctrl.updateUserHood);
   //get all users
   app.get('/users', ctrl.getUsers);
-  // get all users in a given neighrborhood/neighbors of the logged in user
+  // get all users in a given neighborhood/neighbors of the logged in user
   app.get('/neighbors/:hood', ctrl.getNeighbors);
   //create a post
   app.post('/posts', ctrl.createPost);
@@ -35,6 +35,10 @@ module.exports = function (app, express) {
   app.get('/comments', ctrl.getComments);
   //get all posts for a neighborhood
   app.get('/neighborhoods/posts', ctrl.getNeighborhoodsPosts);
+  //patch fave posts to toggle status
+  app.patch('/favorites', ctrl.updatePost);
+  // get fave posts for a user
+  app.get('favorites', ctrl.getFavePosts);
 
   //darksky current weather api request
   app.get('/weather', (req, res) => {
