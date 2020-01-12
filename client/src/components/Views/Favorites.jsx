@@ -15,18 +15,16 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Posts = ({ changeView, loggedIn, posts, favorites, changeCurrentPost, getComments, username, createPost }) => {
+const Favorites = ({ changeView, loggedIn, posts, favedPosts, changeCurrentPost, getComments, username, createPost }) => {
   //use given style from above
   const classes = useStyles();
   return (
     <div className={classes.root}>
       <Typography variant="h5" style={{ fontWeight: "bolder", textAlign: "center", color: "white", marginTop: 20 }}>
-        Welcome, {username}!
+       {username}'s Favorites!
       </Typography>
       {/* If logged in, show an 'add post' button */}
-      {loggedIn ? <p><CreatePost className={classes.createPost} createPost={createPost}/></p> : null}
-      {/* Contaner for each post */}
-      {favorites.map((post, index) => 
+      {favedPosts.map((post, index) => 
       <p key={post.id}>
           <Paper className={classes.paper} elevation={3}>
           <Grid container spacing={3}>
@@ -51,4 +49,4 @@ const Posts = ({ changeView, loggedIn, posts, favorites, changeCurrentPost, getC
   );
 }
 
-export default Posts;
+export default Favorites;
