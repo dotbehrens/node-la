@@ -160,8 +160,10 @@ const updateUserHood = function (req, res, next) {
     { hood: newHood },
     { where: { username } }
   )
-    .then(() => {
-      res.sendStatus(201);
+    .then((data) => {
+      console.log(req.body.newHood)
+      // res.status(201)
+      res.send(req.body.newHood);
     })
     .catch((error) => {
       console.log(error);

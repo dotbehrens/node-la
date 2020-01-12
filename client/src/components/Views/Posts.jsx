@@ -35,12 +35,6 @@ const Posts = ({ changeView, toggleFavorite, loggedIn, createPost, posts, change
             </Grid>
             <Grid item xs={12} sm container>
               <Grid item xs container direction="column" spacing={2}>
-                <FavoriteBorderIcon
-                  size="medium"
-                  onClick={() => {
-                    toggleFavorite(post.id, neighbor);
-                  }}
-                />
                   <Typography gutterBottom id={index} variant="h5" style={{ cursor: 'pointer' }} 
                   onClick={() => { changeView("post"), changeCurrentPost(posts[index]), getComments(post.id) }}>
                     {post.title}

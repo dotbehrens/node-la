@@ -347,9 +347,11 @@ class App extends React.Component {
   // allows user to change their neighborhood
   updateUserHood(newHood) {
     const { username } = this.state;
+    this.setState({neighborhood: newHood})
     axios
       .patch("users/hood", { username, newHood })
       .then(response => {
+        this.setState({neighborhood: newHood})
       })
       .catch(error => {
       });
