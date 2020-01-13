@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Neighbor = ({ neighbor, neighborPosts, getNeighbors, toggleFavorite }) => {
+const Neighbor = ({ neighbor, neighborPosts, getNeighbors, image, toggleFavorite }) => {
   const classes = useStyles();
   return (
     <div>
@@ -46,6 +46,7 @@ const Neighbor = ({ neighbor, neighborPosts, getNeighbors, toggleFavorite }) => 
               <Grid item></Grid>
               <Grid item xs={12} sm container>
                 <Grid item xs container direction="column" spacing={2}>
+                  <img src={image}/>
                   <Typography
                     style={{ float: "left" }}
                     gutterBottom

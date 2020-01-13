@@ -13,6 +13,7 @@ const createUser = function (req, res, next) {
     username,
     hood,
     id,
+    image: "https://res.cloudinary.com/dx8lsbkh7/image/upload/v1578588142/nyrbhlfhe1bcghzv7jp2.jpg"
   })
     .then((data) => {
       res.status(201).json({ // Send 201 status upon success.
@@ -247,7 +248,7 @@ const createPost = function (req, res) {
   })
   .catch((err) => {
     res.status(400);
-    console.log('There was an error creating that post!', err);
+    console.log('There was an error creating that post!');
     return next();
   });
 };
@@ -259,6 +260,7 @@ const getSinglePost = function (req, res) {
     where: {
       title: title,
       id: id
+
     }
   })
     .then((singlePost) => {
@@ -275,16 +277,16 @@ const usersPosts = function (req, res, next) {
   User.findOne({where:{username : username}})
   .then((user)=>{
     id = user.dataValues.id;
-    return Post.findAll({ where: { userId: id } })
+    return (Post.findAll({ where: { userId: id } }))
   })
   .then((response)=>{
     response;
     res.status(200);
     res.send(JSON.stringify({
       status: 'success',
-      data: response,
+      data: response, 
       message: 'Here are all that user\'s posts!'
-    }));
+    }))
     return next();
   })
   .catch((error) => {
@@ -475,6 +477,39 @@ const getNeighborhoodsPosts = function(req, res, next) {
   })
 }
 
+const updateUserImage = function (req, res, next) {
+  const { newImage, username } = req.body;
+  User.update(
+    { image: {newImage} },
+    { where: { username } }
+  )
+    .then((data) => {
+      res.send(req.body.newImage);
+    })
+    .catch((error) => {
+      console.log("error with image", error);
+    })
+  next();
+}
+
+const getUserImage= function (req, res, next) {
+    const { username } = req.query;
+    User.findOne({where:{username : username}})
+    .then((user)=>{
+      res.send(JSON.stringify({
+        status: 'success',
+        data: user.image, 
+        message: 'Here are all that user\'s posts!'
+      }));
+    })
+      return next()
+    .catch((error) => {
+      console.log(error);
+    })
+}
+
+
+
 
 module.exports = {
   getFaves,
@@ -498,5 +533,7 @@ module.exports = {
   getComments,
   updateComment,
   deleteComment,
-  usersPosts
+  usersPosts,
+  updateUserImage,
+  getUserImage,
 };

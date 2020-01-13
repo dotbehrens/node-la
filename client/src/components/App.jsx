@@ -32,8 +32,9 @@ class App extends React.Component {
       neighbors: [],
       neighbor: "",
       neighborPosts: [],
+      neighborPostsImage: "https://res.cloudinary.com/dx8lsbkh7/image/upload/v1578588142/nyrbhlfhe1bcghzv7jp2.jpg",
       favorites: [],
-      profileImage:null
+      profileImage:"https://res.cloudinary.com/dx8lsbkh7/image/upload/v1578588142/nyrbhlfhe1bcghzv7jp2.jpg"
     };
 
     this.userLogin = this.userLogin.bind(this);
@@ -141,7 +142,7 @@ class App extends React.Component {
     });
     return Promise.all(users);
   }
-
+//TODO find this
   // function to get all posts from the signed in user and set username state
   getUserPosts(username) {
     this.setState({
@@ -154,7 +155,6 @@ class App extends React.Component {
         }
       })
       .then(response => {
-        console.log(response);
         this.setState({
           userPosts: response.data.data.reverse()
         });
@@ -167,11 +167,12 @@ class App extends React.Component {
     return axios
       .get(`/users/${username}`)
       .then(response => {
-        const { userId, username, hood } = response.data.data[0];
+        const { userId, username, hood, image } = response.data.data[0];
         this.setState({
           userId,
           username,
-          neighborhood: hood
+          neighborhood: hood,
+          image,
         });
       })
       .catch(error => console.log(error));
@@ -179,17 +180,15 @@ class App extends React.Component {
 
   // function to save new username to the db and set username state
   userSignUp(username, hood) {
-    console.log(hood);
     this.setState({
       username: username,
-      neighborhood: hood
+      neighborhood: hood,
     });
     return axios
       .post("/signup", {
         username: username,
         hood
       })
-      .then(response => response)
       .catch(error => console.log(error));
   }
 
@@ -281,11 +280,28 @@ class App extends React.Component {
             }
           })
           .then(response => {
+        
+            console.log('there',response)
             const neighborPosts = response.data.data;
-            console.log(neighborPosts);
+            console.log('here',neighborPosts);
             this.setState({
               neighborPosts
             });
+          })
+          .then(() => {
+            axios.get('/image', {
+              params:{
+                username:neighbor
+              }
+            })
+            debugger;
+          })
+          .then(response => {
+            this.setState({
+                neighborPostImage: response.data
+              })
+              debugger;
+              console.log('dott', this.state)
           })
           .then(() => {
             this.changeView("neighbor");
@@ -411,6 +427,14 @@ class App extends React.Component {
         //save this link to db
 
     })
+    .then( () => {
+
+      axios.patch("/image", {
+        userName: this.state.username,
+        newImage: this.state.profileImage
+      })
+      
+    })
     .catch((err)=> {
         console.log('error with cloudinary', err)
     });
@@ -425,6 +449,7 @@ class App extends React.Component {
       neighborhood,
       neighborPosts,
       username,
+      neighborPostsImage,
       favorites,
     } = this.state;
     const { loggedIn } = this.state;
@@ -569,6 +594,7 @@ class App extends React.Component {
                     changeView={this.changeView}
                     changeCurrentPost={this.changeCurrentPost}
                     toggleFavorite={this.toggleFavorite}
+                    image={neighborPostsImage}
                   />
                 ) : (
                   <div>

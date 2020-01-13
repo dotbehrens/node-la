@@ -39,7 +39,10 @@ module.exports = function (app, express) {
   app.patch('/favorites', ctrl.updatePost);
   // get fave posts for a user
   app.get('/favs', ctrl.getFavePosts);
-
+  //updates user profile image
+  app.patch('/image', ctrl.updateUserImage)
+  //get user image
+  app.get('/image', ctrl.getUserImage)
   //darksky current weather api request
   app.get('/weather', (req, res) => {
     axios.get(`https://api.darksky.net/forecast/${weatherKey}/29.9511,-90.0715`)
