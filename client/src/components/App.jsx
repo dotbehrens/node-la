@@ -294,14 +294,11 @@ class App extends React.Component {
                 username:neighbor
               }
             })
-            debugger;
           })
           .then(response => {
             this.setState({
-                neighborPostImage: response.data
+                neighborPostImage: response
               })
-              debugger;
-              console.log('dott', this.state)
           })
           .then(() => {
             this.changeView("neighbor");
@@ -430,7 +427,7 @@ class App extends React.Component {
     .then( () => {
 
       axios.patch("/image", {
-        userName: this.state.username,
+        username: this.state.username,
         newImage: this.state.profileImage
       })
       

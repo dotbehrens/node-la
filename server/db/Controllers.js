@@ -287,7 +287,7 @@ const usersPosts = function (req, res, next) {
       data: response, 
       message: 'Here are all that user\'s posts!'
     }))
-    return next();
+  return next();
   })
   .catch((error) => {
     console.log(error);
@@ -480,7 +480,7 @@ const getNeighborhoodsPosts = function(req, res, next) {
 const updateUserImage = function (req, res, next) {
   const { newImage, username } = req.body;
   User.update(
-    { image: {newImage} },
+    { image: newImage },
     { where: { username } }
   )
     .then((data) => {
@@ -489,20 +489,15 @@ const updateUserImage = function (req, res, next) {
     .catch((error) => {
       console.log("error with image", error);
     })
-  next();
 }
 
 const getUserImage= function (req, res, next) {
     const { username } = req.query;
     User.findOne({where:{username : username}})
     .then((user)=>{
-      res.send(JSON.stringify({
-        status: 'success',
-        data: user.image, 
-        message: 'Here are all that user\'s posts!'
-      }));
+      res.send( user.image);
     })
-      return next()
+      // return next()
     .catch((error) => {
       console.log(error);
     })
