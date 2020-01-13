@@ -34,7 +34,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-const UserProfile = ({ updateUserBio, updateUserHood, neighborhood }) => {
+const UserProfile = ({ updateUserBio, updateUserHood, neighborhood, handleProfileImage, profileImage }) => {
   const classes = useStyles();
   const [bio, setUserBio] = useState('');
   const [hood, setHood] = useState('');
@@ -63,6 +63,14 @@ const UserProfile = ({ updateUserBio, updateUserHood, neighborhood }) => {
 
   return (
     <div>
+      <Paper aria-labelledby="form-title" className={classes.paper}>
+      <img src={profileImage}/>
+      </Paper>
+      <Paper aria-labelledby="form-title" className={classes.paper}>
+      <FormLabel className="formLabel" id="form-dialog-title"> Update Your Profile Picture </FormLabel>
+          <input type="file" name="url" onChange={handleProfileImage} />          
+          <Button className={classes.button} color="primary" onClick={()=> handleProfileImage}>Upload</Button>
+          </Paper>
       <Paper aria-labelledby="form-title" className={classes.paper}>
         <FormLabel className="formLabel" id="form-dialog-title"> Edit your bio </FormLabel>
           <TextField id="bio" label="Bio" type="bio" value={bio} onChange={(e) => setUserBio(e.target.value)} fullWidth />

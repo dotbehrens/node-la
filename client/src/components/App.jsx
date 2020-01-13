@@ -33,6 +33,7 @@ class App extends React.Component {
       neighbor: "",
       neighborPosts: [],
       favorites: [],
+      profileImage:null
     };
 
     this.userLogin = this.userLogin.bind(this);
@@ -55,6 +56,7 @@ class App extends React.Component {
     this.changeCurrentPost = this.changeCurrentPost.bind(this);
     this.getFavs = this.getFavs.bind(this);
     this.toggleFavorite = this.toggleFavorite.bind(this);
+    this.handleProfileImage = this.handleProfileImage.bind(this);
   }
 
   componentDidMount() {
@@ -386,6 +388,34 @@ class App extends React.Component {
     })
   }
 
+  handleProfileImage(){
+
+    const CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/dx8lsbkh7/image/upload/';
+    const CLOUDINARY_UPLOAD_PRESET = 'a5lm50bv';
+    const file = event.target.files[0];
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+    
+    axios({
+      url:CLOUDINARY_URL,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      data: formData
+    })
+    .then((res) => {
+      this.setState({profileImage: res.data.url});
+        console.log('res', res.data.url)
+        //save this link to db
+
+    })
+    .catch((err)=> {
+        console.log('error with cloudinary', err)
+    });
+  }
+    
 
   render() {
     const {
@@ -420,6 +450,8 @@ class App extends React.Component {
             case "profile":
               return loggedIn ? (
                 <UserProfile
+                  profileImage={this.state.profileImage}
+                  handleProfileImage={this.handleProfileImage}
                   neighborhood={neighborhood}
                   updateUserBio={this.updateUserBio}
                   updateUserHood={this.updateUserHood}
